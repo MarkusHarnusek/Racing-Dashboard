@@ -1,0 +1,192 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: black;
+    font-family: 'Arial', sans-serif;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Container for the dashboard that maintains centering */
+.dashboard-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Main dashboard with 5:3 aspect ratio */
+.dashboard {
+    width: 100%;
+    max-width: 100vh * (5/3); /* Maximum width based on viewport height */
+    max-height: 100vw * (3/5); /* Maximum height based on viewport width */
+    aspect-ratio: 5 / 3;
+    background-color: #333333;
+    border: 2px solid #666666;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dots container at the top */
+.dots-container {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: clamp(8px, 1.5vw, 20px);
+    z-index: 10;
+}
+
+/* Individual dot styling */
+.dot {
+    width: clamp(12px, 2vw, 25px);
+    height: clamp(12px, 2vw, 25px);
+    border-radius: 50%;
+    background-color: #555555;
+    border: 2px solid #777777;
+    transition: all 0.1s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Hover effect for dots */
+.dot:hover {
+    transform: scale(1.1);
+    border-color: #999999;
+}
+
+/* LED glow effect for active dots */
+.dot.active {
+    box-shadow: 
+        0 0 10px currentColor,
+        0 0 20px currentColor,
+        0 0 30px currentColor,
+        inset 0 0 10px rgba(255, 255, 255, 0.2);
+    border-color: currentColor;
+}
+
+/* Enhanced glow for very bright colors */
+.dot.active.bright {
+    box-shadow: 
+        0 0 15px currentColor,
+        0 0 25px currentColor,
+        0 0 35px currentColor,
+        0 0 45px currentColor,
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Side dots containers */
+.side-dots-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 2vw, 25px);
+    z-index: 10;
+}
+
+.side-dots-container.left {
+    left: 15px;
+}
+
+.side-dots-container.right {
+    right: 15px;
+}
+
+.display {
+    width: 90%;
+    height: 85%;
+    max-width: 75vh * (5/3); /* Maximum width based on viewport height */
+    max-height: 75vw * (3/5); /* Maximum height based on viewport width */
+    aspect-ratio: 5 / 3;
+    background-color: #0d0d0d;
+    border: 5px solid #3c3c3c;
+    border-radius: 10px;
+    margin-top: 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Placeholder content for demonstration */
+.placeholder-content {
+    text-align: center;
+    color: white;
+}
+
+.placeholder-content h1 {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.placeholder-content p {
+    font-size: clamp(2rem, 4vw, 3rem);
+    opacity: 0.8;
+}
+
+#gear-display {
+    font-size: clamp(2rem, 16vw, 8rem);
+    font-weight: bold;
+    color: #ffffff;
+}
+
+#speed-display {
+    font-size: clamp(1.5rem, 6vw, 6rem);
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-aspect-ratio: 5/3) {
+    /* When viewport is taller than 5:3, constrain by width */
+    .dashboard {
+        width: calc(100vw - 40px);
+        height: calc((100vw - 40px) * 3/5);
+    }
+}
+
+@media (min-aspect-ratio: 5/3) {
+    /* When viewport is wider than 5:3, constrain by height */
+    .dashboard {
+        width: calc((100vh - 40px) * 5/3);
+        height: calc(100vh - 40px);
+    }
+}
+
+/* Ensure minimum sizes for very small screens */
+@media (max-width: 600px) {
+    .dashboard-container {
+        padding: 10px;
+    }
+    
+    .placeholder-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .placeholder-content p {
+        font-size: 1rem;
+    }
+}
