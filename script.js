@@ -9,6 +9,41 @@ const BRIGHT_COLORS = [
     "#ffffff",
 ];
 
+const left_plus = document.getElementById("left-plus");
+const right_plus = document.getElementById("right-plus");
+const left_minus = document.getElementById("left-minus");
+const right_minus = document.getElementById("right-minus");
+const left_container_title = document.getElementById("container-left-title");
+const right_container_title = document.getElementById("container-right-title");
+
+const LEFT_PAGES = [
+    "Timing",
+    "Fuel",
+    "Tyres",
+    "Session",
+    "Car",
+    "Input",
+    "Environment",
+    "Sectors",
+    "Delta",
+];
+
+let currentLeftPageIndex = 0;
+
+const RIGHT_PAGES = [
+    "Timing",
+    "Fuel",
+    "Tyres",
+    "Session",
+    "Car",
+    "Input",
+    "Environment",
+    "Sectors",
+    "Delta",
+];
+
+let currentRightPageIndex = 0;
+
 let previousFlagState = 0;
 let flashGreen = 0;
 let greenFlashInterval = null;
@@ -127,7 +162,6 @@ function processPacketData(data) {
     if (!data) {
         return;
     }
-    // console.log("Received packet:", data);
     updateDashboardFromPacket(data);
 }
 
@@ -171,22 +205,26 @@ function updateDashboardFromPacket(packet) {
     // Flags
     if (packet.flag == 2 && previousFlagState != 2) {
         previousFlagState = 2;
-        stopSynchronousSideDotFlashing(); 
-        stopGreenFlashSequence(); 
-        startSynchronousSideDotFlashing(BRIGHT_COLORS[3]); 
+        stopSynchronousSideDotFlashing();
+        stopGreenFlashSequence();
+        startSynchronousSideDotFlashing(BRIGHT_COLORS[3]);
     } else if (packet.flag == 1 && previousFlagState != 1 && packet.flag != 2) {
         previousFlagState = 1;
-        stopSynchronousSideDotFlashing(); 
-        stopGreenFlashSequence(); 
+        stopSynchronousSideDotFlashing();
+        stopGreenFlashSequence();
         startSynchronousSideDotFlashing(BRIGHT_COLORS[2]);
     } else if (packet.flag == 0 && previousFlagState == 2) {
         previousFlagState = 0;
         stopSynchronousSideDotFlashing();
         startGreenFlashSequence();
-    } else if (packet.flag == 0 && previousFlagState != 0 && previousFlagState != 2) {
+    } else if (
+        packet.flag == 0 &&
+        previousFlagState != 0 &&
+        previousFlagState != 2
+    ) {
         previousFlagState = 0;
         stopSynchronousSideDotFlashing();
-        stopGreenFlashSequence(); 
+        stopGreenFlashSequence();
     }
 
     // Gear display
@@ -266,11 +304,10 @@ function stopPitFlashing() {
 }
 
 function startSynchronousSideDotFlashing(color) {
-    // Stop any existing flag flashing first
     if (flagFlashInterval) {
         clearInterval(flagFlashInterval);
     }
-    
+
     flagFlashInterval = setInterval(() => {
         flagFlashState = !flagFlashState;
 
@@ -297,33 +334,29 @@ function startGreenFlashSequence() {
     let flashCount = 0;
     const maxFlashes = 3;
     let isOn = false;
-    
-    // Clear any existing green flash interval
+
     if (greenFlashInterval) {
         clearInterval(greenFlashInterval);
     }
-    
+
     greenFlashInterval = setInterval(() => {
         isOn = !isOn;
-        
+
         if (isOn) {
-            // Turn on green
             for (let i = 1; i <= 3; i++) {
-                setSideDotsPair(i, BRIGHT_COLORS[1]); // Green
+                setSideDotsPair(i, BRIGHT_COLORS[1]);
             }
         } else {
-            // Turn off
             resetSideDots();
             flashCount++;
-            
-            // Stop after 3 complete flashes
+
             if (flashCount >= maxFlashes) {
                 clearInterval(greenFlashInterval);
                 greenFlashInterval = null;
                 resetSideDots();
             }
         }
-    }, 200); // Flash every 200ms (faster than flag flashing)
+    }, 200);
 }
 
 function stopGreenFlashSequence() {
@@ -338,8 +371,47 @@ function startDataFetching() {
     setInterval(fetchPacketData, 10);
 }
 
+// Container cycle
+
+left_plus.addEventListener("click", () => {
+    currentLeftPageIndex++;
+    currentLeftPageIndex %= LEFT_PAGES.length;
+    updateContainerTitles();
+    console.log("Left plus clicked, new page:", LEFT_PAGES[currentLeftPageIndex]);
+});
+
+right_plus.addEventListener("click", () => {
+    currentRightPageIndex++;
+    currentRightPageIndex %= RIGHT_PAGES.length;
+    updateContainerTitles();
+    console.log("Right plus clicked, new page:", RIGHT_PAGES[currentRightPageIndex]);
+});
+
+left_minus.addEventListener("click", () => {
+    currentLeftPageIndex--;
+    if (currentLeftPageIndex < 0) {
+        currentLeftPageIndex = LEFT_PAGES.length - 1;
+    }
+    updateContainerTitles();
+    console.log("Left minus clicked, new page:", LEFT_PAGES[currentLeftPageIndex]);
+});
+
+right_minus.addEventListener("click", () => {
+    currentRightPageIndex--;
+    if (currentRightPageIndex < 0) {
+        currentRightPageIndex = RIGHT_PAGES.length - 1;
+    }
+    updateContainerTitles();
+    console.log("Right minus clicked, new page:", RIGHT_PAGES[currentRightPageIndex]);
+});
+
+function updateContainerTitles() {
+    left_container_title.textContent = LEFT_PAGES[currentLeftPageIndex];
+    right_container_title.textContent = RIGHT_PAGES[currentRightPageIndex];
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     setAllDotsColor(BRIGHT_COLORS[0]);
-
+    updateContainerTitles();
     startDataFetching();
 });
