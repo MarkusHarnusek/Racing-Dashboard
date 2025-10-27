@@ -32,8 +32,8 @@ body {
 
 .dashboard {
     width: 100%;
-    max-width: 100vh * (5/3); 
-    max-height: 100vw * (3/5); 
+    max-width: 100vh * (5/3);
+    max-height: 100vw * (3/5);
     aspect-ratio: 5 / 3;
     background-color: #333333;
     border: 2px solid #666666;
@@ -47,12 +47,15 @@ body {
 
 .dots-container {
     position: absolute;
-    top: 15px;
+    top: 15px; /* Move dots to the top */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: clamp(8px, 1.5vw, 20px);
-    z-index: 10;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Fixed gap between items */
+    z-index: 10; /* Ensure visibility above other elements */
 }
 
 .dot {
@@ -254,9 +257,72 @@ body {
     width: 100%;
 }
 
+#container-top-left {
+    align-items: center;
+    position: absolute;
+    left: 8%;
+    top: 15%;
+    width: 30%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    border: 3px solid #595959;
+    border-radius: 20px;
+}
+
+#container-top-right {
+    align-items: center;
+    position: absolute;
+    right: 8%;
+    top: 15%;
+    width: 30%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    border: 3px solid #595959;
+    border-radius: 20px;
+}
+
+#container-top-left, #container-top-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Fixed gap between items */
+}
+
+.top-container-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2%;
+    border-radius: 20px;
+    width: 25%;
+}
+
+.top-container-item-value {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.top-container-item-text {
+    font-size: clamp(1rem, 0.3rem, 2rem);
+    color: #ffffff;
+}
+
+/* Top container elements */
+#tc-container {
+    background-color: #66cb3f;
+}
+
 /* Responsive adjustments */
 @media (max-aspect-ratio: 5/3) {
-    /* When viewport is taller than 5:3, constrain by width */
     .dashboard {
         width: calc(100vw - 40px);
         height: calc((100vw - 40px) * 3 / 5);

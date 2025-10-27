@@ -54,20 +54,17 @@ function setDotColor(dotId, color) {
     const dot = document.getElementById(dotId);
     if (dot) {
         dot.style.backgroundColor = color;
-        dot.style.color = color; // Set color for currentColor in CSS
+        dot.style.color = color; 
 
-        // Add glow effect if not default color
         if (color.toLowerCase() !== DEFAULT_COLOR.toLowerCase()) {
             dot.classList.add("active");
 
-            // Add extra bright glow for certain colors
             if (BRIGHT_COLORS.includes(color.toLowerCase())) {
                 dot.classList.add("bright");
             } else {
                 dot.classList.remove("bright");
             }
         } else {
-            // Remove glow effects for default color
             dot.classList.remove("active", "bright");
         }
     }
@@ -120,17 +117,15 @@ function resetAllDots() {
     resetSideDots();
 }
 
-// Global variable to store the latest packet data
 let latestPacketData = null;
 let flashState = false;
 let flashInterval = null;
 let pitFlashState = false;
 let pitFlashInterval = null;
 
-// Function to fetch data from the endpoint
 async function fetchPacketData() {
     try {
-        const response = await fetch("http://10.214.10.8:8080/packet", {
+        const response = await fetch("http://172.17.192.1:8080/packet", {
             method: "GET",
             mode: "cors",
             headers: {
@@ -244,6 +239,12 @@ function updateDashboardFromPacket(packet) {
     if (speedElement) {
         console.log(packet.speedKmh);
         speedElement.textContent = Math.round(packet.speedKmh);
+    }
+
+    // Top container
+    const tcElement = document.getElementById("tc-element");
+    if (tcElement) {
+        tcElement.textContent = packet.tc;
     }
 }
 
@@ -372,7 +373,6 @@ function startDataFetching() {
 }
 
 // Container cycle
-
 left_plus.addEventListener("click", () => {
     currentLeftPageIndex++;
     currentLeftPageIndex %= LEFT_PAGES.length;
