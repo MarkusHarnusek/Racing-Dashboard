@@ -246,6 +246,16 @@ function updateDashboardFromPacket(packet) {
     if (tcElement) {
         tcElement.textContent = packet.tc;
     }
+
+    const absElement = document.getElementById("abs-element");
+    if (absElement) {
+        absElement.textContent = packet.abs;
+    }
+
+    const bbElement = document.getElementById("bb-element");
+    if (bbElement) {
+        bbElement.textContent = packet.bb;
+    }
 }
 
 function startRpmFlashing(activeDots) {

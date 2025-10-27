@@ -1,4 +1,3 @@
-/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -20,7 +19,6 @@ body {
     justify-content: center;
 }
 
-/* Container for the dashboard that maintains centering */
 .dashboard-container {
     width: 100%;
     height: 100%;
@@ -47,15 +45,15 @@ body {
 
 .dots-container {
     position: absolute;
-    top: 15px; /* Move dots to the top */
+    top: 15px; 
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 20px; /* Fixed gap between items */
-    z-index: 10; /* Ensure visibility above other elements */
+    gap: 20px; 
+    z-index: 10; 
 }
 
 .dot {
@@ -121,7 +119,6 @@ body {
     justify-content: center;
 }
 
-/* Placeholder content for demonstration */
 .placeholder-content {
     text-align: center;
     color: white;
@@ -292,7 +289,7 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 20px; /* Fixed gap between items */
+    gap: 20px; 
 }
 
 .top-container-item {
@@ -300,9 +297,12 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border: 5px solid;
     padding: 2%;
     border-radius: 20px;
     width: 25%;
+    aspect-ratio: 1 / 1;
+    height: 90%;
 }
 
 .top-container-item-value {
@@ -316,12 +316,14 @@ body {
     color: #ffffff;
 }
 
-/* Top container elements */
 #tc-container {
-    background-color: #66cb3f;
+    border-color: #cb3f46;
 }
 
-/* Responsive adjustments */
+#abs-container {
+    border-color: #3fcb95;
+}
+
 @media (max-aspect-ratio: 5/3) {
     .dashboard {
         width: calc(100vw - 40px);
@@ -330,14 +332,12 @@ body {
 }
 
 @media (min-aspect-ratio: 5/3) {
-    /* When viewport is wider than 5:3, constrain by height */
     .dashboard {
         width: calc((100vh - 40px) * 5 / 3);
         height: calc(100vh - 40px);
     }
 }
 
-/* Ensure minimum sizes for very small screens */
 @media (max-width: 600px) {
     .dashboard-container {
         padding: 10px;
