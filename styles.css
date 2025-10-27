@@ -324,6 +324,14 @@ body {
     border-color: #3fcb95;
 }
 
+#lap-container {
+    border-color: #f0ad4e;
+}
+
+#pos-container {
+    border-color: #4e9ef0;
+}
+
 @media (max-aspect-ratio: 5/3) {
     .dashboard {
         width: calc(100vw - 40px);

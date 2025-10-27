@@ -203,8 +203,8 @@ function updateDashboardFromPacket(packet) {
         stopSynchronousSideDotFlashing();
         stopGreenFlashSequence();
         startSynchronousSideDotFlashing(BRIGHT_COLORS[3]);
-    } else if (packet.flag == 1 && previousFlagState != 1 && packet.flag != 2) {
-        previousFlagState = 1;
+    } else if (packet.flag == 7 && previousFlagState != 7 && packet.flag != 2) {
+        previousFlagState = 7;
         stopSynchronousSideDotFlashing();
         stopGreenFlashSequence();
         startSynchronousSideDotFlashing(BRIGHT_COLORS[2]);
@@ -252,9 +252,14 @@ function updateDashboardFromPacket(packet) {
         absElement.textContent = packet.abs;
     }
 
-    const bbElement = document.getElementById("bb-element");
-    if (bbElement) {
-        bbElement.textContent = packet.bb;
+    const lapElement = document.getElementById("lap-element");
+    if (lapElement) {
+        lapElement.textContent = packet.completedLaps;
+    }
+
+    const posElement = document.getElementById("pos-element");
+    if (posElement) {
+        posElement.textContent = packet.position;
     }
 }
 
