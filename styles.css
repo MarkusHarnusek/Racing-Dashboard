@@ -332,6 +332,32 @@ body {
     border-color: #4e9ef0;
 }
 
+.container-item-container {
+    width: 100%;
+    height: 100%;
+}
+
+#timing-left,
+#timing-right {
+    text-align: center;
+    margin-top: -5%;
+}
+
+.timing-item {
+    margin-top: 5%;
+}
+
+.timing-item p {
+    font-size: clamp(1rem, 2.5vw, 5rem);
+    font-weight: bolder;
+    color: #ffffff;
+}
+
+.timing-item span {
+    font-size: clamp(0.8rem, 1.5vw, 3rem);
+    color: #cccccc;
+}
+
 @media (max-aspect-ratio: 5/3) {
     .dashboard {
         width: calc(100vw - 40px);

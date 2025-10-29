@@ -49,12 +49,14 @@ let flashGreen = 0;
 let greenFlashInterval = null;
 let flagFlashInterval = null;
 let flagFlashState = false;
+let lastSectorCount = 1;
+let lastSectorTimes = [];
 
 function setDotColor(dotId, color) {
     const dot = document.getElementById(dotId);
     if (dot) {
         dot.style.backgroundColor = color;
-        dot.style.color = color; 
+        dot.style.color = color;
 
         if (color.toLowerCase() !== DEFAULT_COLOR.toLowerCase()) {
             dot.classList.add("active");
@@ -125,7 +127,7 @@ let pitFlashInterval = null;
 
 async function fetchPacketData() {
     try {
-        const response = await fetch("http://172.17.192.1:8080/packet", {
+        const response = await fetch("http://10.44.191.120:8080/packet", {
             method: "GET",
             mode: "cors",
             headers: {
@@ -160,7 +162,7 @@ function processPacketData(data) {
     updateDashboardFromPacket(data);
 }
 
-function updateDashboardFromPacket(packet) {
+function updateDashboardFromPacket(packet) {  
     // Rpm dots
     const maxRpm = packet.maxRpm;
     const rpmPercentage = Math.min(packet.rpms / maxRpm, 1);
@@ -237,7 +239,6 @@ function updateDashboardFromPacket(packet) {
     // Speed display
     const speedElement = document.getElementById("speed-display");
     if (speedElement) {
-        console.log(packet.speedKmh);
         speedElement.textContent = Math.round(packet.speedKmh);
     }
 
@@ -260,6 +261,28 @@ function updateDashboardFromPacket(packet) {
     const posElement = document.getElementById("pos-element");
     if (posElement) {
         posElement.textContent = packet.position;
+    }
+
+    // Time container
+    const timeLeftElement = document.getElementById("timing-left");
+    const timeRightElement = document.getElementById("timing-right");
+    if (timeLeftElement && timeRightElement) {
+        const currentLeft = document.getElementById("timing-current-left");
+        const lastLeft = document.getElementById("timing-last-left");
+        const bestLeft = document.getElementById("timing-best-left");
+
+        const currentRight = document.getElementById("timing-current-right");
+        const lastRight = document.getElementById("timing-last-right");
+        const bestRight = document.getElementById("timing-best-right");
+
+        if (currentLeft && lastLeft && bestLeft && currentRight && lastRight && bestRight) {
+            currentLeft.textContent = formatTime(packet.currentTime);
+            lastLeft.textContent = formatTime(packet.lastTime);
+            bestLeft.textContent = formatTime(packet.bestTime);
+            currentRight.textContent = formatTime(packet.currentTime);
+            lastRight.textContent = formatTime(packet.lastTime);
+            bestRight.textContent = formatTime(packet.bestTime);
+        }
     }
 }
 
@@ -392,14 +415,20 @@ left_plus.addEventListener("click", () => {
     currentLeftPageIndex++;
     currentLeftPageIndex %= LEFT_PAGES.length;
     updateContainerTitles();
-    console.log("Left plus clicked, new page:", LEFT_PAGES[currentLeftPageIndex]);
+    console.log(
+        "Left plus clicked, new page:",
+        LEFT_PAGES[currentLeftPageIndex]
+    );
 });
 
 right_plus.addEventListener("click", () => {
     currentRightPageIndex++;
     currentRightPageIndex %= RIGHT_PAGES.length;
     updateContainerTitles();
-    console.log("Right plus clicked, new page:", RIGHT_PAGES[currentRightPageIndex]);
+    console.log(
+        "Right plus clicked, new page:",
+        RIGHT_PAGES[currentRightPageIndex]
+    );
 });
 
 left_minus.addEventListener("click", () => {
@@ -408,7 +437,10 @@ left_minus.addEventListener("click", () => {
         currentLeftPageIndex = LEFT_PAGES.length - 1;
     }
     updateContainerTitles();
-    console.log("Left minus clicked, new page:", LEFT_PAGES[currentLeftPageIndex]);
+    console.log(
+        "Left minus clicked, new page:",
+        LEFT_PAGES[currentLeftPageIndex]
+    );
 });
 
 right_minus.addEventListener("click", () => {
@@ -417,12 +449,28 @@ right_minus.addEventListener("click", () => {
         currentRightPageIndex = RIGHT_PAGES.length - 1;
     }
     updateContainerTitles();
-    console.log("Right minus clicked, new page:", RIGHT_PAGES[currentRightPageIndex]);
+    console.log(
+        "Right minus clicked, new page:",
+        RIGHT_PAGES[currentRightPageIndex]
+    );
 });
 
 function updateContainerTitles() {
     left_container_title.textContent = LEFT_PAGES[currentLeftPageIndex];
     right_container_title.textContent = RIGHT_PAGES[currentRightPageIndex];
+}
+
+function formatTime(ms) {
+    const minutes = Math.floor(ms / 60000); 
+    const seconds = Math.floor((ms % 60000) / 1000); 
+    const milliseconds = ms % 1000; 
+
+    // Only show minutes if they are greater than 0
+    if (minutes > 0) {
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+    } else {
+        return `${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
