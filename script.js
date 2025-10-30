@@ -162,7 +162,7 @@ function processPacketData(data) {
     updateDashboardFromPacket(data);
 }
 
-function updateDashboardFromPacket(packet) {  
+function updateDashboardFromPacket(packet) {
     // Rpm dots
     const maxRpm = packet.maxRpm;
     const rpmPercentage = Math.min(packet.rpms / maxRpm, 1);
@@ -275,7 +275,14 @@ function updateDashboardFromPacket(packet) {
         const lastRight = document.getElementById("timing-last-right");
         const bestRight = document.getElementById("timing-best-right");
 
-        if (currentLeft && lastLeft && bestLeft && currentRight && lastRight && bestRight) {
+        if (
+            currentLeft &&
+            lastLeft &&
+            bestLeft &&
+            currentRight &&
+            lastRight &&
+            bestRight
+        ) {
             currentLeft.textContent = formatTime(packet.currentTime);
             lastLeft.textContent = formatTime(packet.lastTime);
             bestLeft.textContent = formatTime(packet.bestTime);
@@ -415,6 +422,7 @@ left_plus.addEventListener("click", () => {
     currentLeftPageIndex++;
     currentLeftPageIndex %= LEFT_PAGES.length;
     updateContainerTitles();
+    updateContainerVisibility();
     console.log(
         "Left plus clicked, new page:",
         LEFT_PAGES[currentLeftPageIndex]
@@ -425,6 +433,7 @@ right_plus.addEventListener("click", () => {
     currentRightPageIndex++;
     currentRightPageIndex %= RIGHT_PAGES.length;
     updateContainerTitles();
+    updateContainerVisibility();
     console.log(
         "Right plus clicked, new page:",
         RIGHT_PAGES[currentRightPageIndex]
@@ -437,6 +446,7 @@ left_minus.addEventListener("click", () => {
         currentLeftPageIndex = LEFT_PAGES.length - 1;
     }
     updateContainerTitles();
+    updateContainerVisibility();
     console.log(
         "Left minus clicked, new page:",
         LEFT_PAGES[currentLeftPageIndex]
@@ -449,6 +459,7 @@ right_minus.addEventListener("click", () => {
         currentRightPageIndex = RIGHT_PAGES.length - 1;
     }
     updateContainerTitles();
+    updateContainerVisibility();
     console.log(
         "Right minus clicked, new page:",
         RIGHT_PAGES[currentRightPageIndex]
@@ -460,21 +471,127 @@ function updateContainerTitles() {
     right_container_title.textContent = RIGHT_PAGES[currentRightPageIndex];
 }
 
+// Update visible containers
+function updateContainerVisibility() {
+    resetContainerVisibility();
+
+    // Left container
+    switch (LEFT_PAGES[currentLeftPageIndex]) {
+        case "Timing":
+            document.querySelector("#timing-left").style.display = "block";
+            break;
+
+        case "Fuel":
+            document.querySelector("#fuel-left").style.display = "block";
+            break;
+
+        case "Tyres":
+            document.querySelector("#tyres-left").style.display = "block";
+            break;
+
+        case "Session":
+            document.querySelector("#session-left").style.display = "block";
+            break;
+
+        case "Car":
+            document.querySelector("#car-left").style.display = "block";
+            break;
+
+        case "Input":
+            document.querySelector("#input-left").style.display = "block";
+            break;
+
+        case "Environment":
+            document.querySelector("#environment-left").style.display = "block";
+            break;
+
+        case "Sectors":
+            document.querySelector("#sectors-left").style.display = "block";
+            break;
+
+        case "Delta":
+            document.querySelector("#delta-left").style.display = "block";
+            break;
+    }
+
+    // Right container
+    switch (RIGHT_PAGES[currentRightPageIndex]) {
+        case "Timing":
+            document.querySelector("#timing-right").style.display = "block";
+            break;
+
+        case "Fuel":
+            document.querySelector("#fuel-right").style.display = "block";
+            break;
+
+            case "Tyres":
+            document.querySelector("#tyres-right").style.display = "block";
+            break;
+
+        case "Session":
+            document.querySelector("#session-right").style.display = "block";
+            break;
+
+        case "Car":
+            document.querySelector("#car-right").style.display = "block";
+            break;
+
+        case "Input":
+            document.querySelector("#input-right").style.display = "block";
+            break;
+
+        case "Environment":
+            document.querySelector("#environment-right").style.display = "block";
+            break;
+
+        case "Sectors":
+            document.querySelector("#sectors-right").style.display = "block";
+            break;
+
+        case "Delta":
+            document.querySelector("#delta-right").style.display = "block";
+            break;
+    }
+}
+
+// Reset all container visibility
+function resetContainerVisibility() {
+    const leftContainers = document.querySelectorAll(
+        "#left-container-items > div"
+    );
+    leftContainers.forEach((container) => {
+        container.style.display = "none";
+    });
+
+    const rightContainers = document.querySelectorAll(
+        "#right-container-items > div"
+    );
+    rightContainers.forEach((container) => {
+        container.style.display = "none";
+    });
+}
+
 function formatTime(ms) {
-    const minutes = Math.floor(ms / 60000); 
-    const seconds = Math.floor((ms % 60000) / 1000); 
-    const milliseconds = ms % 1000; 
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    const milliseconds = ms % 1000;
 
     // Only show minutes if they are greater than 0
     if (minutes > 0) {
-        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+        return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+            2,
+            "0"
+        )}.${String(milliseconds).padStart(3, "0")}`;
     } else {
-        return `${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+        return `${String(seconds).padStart(2, "0")}.${String(
+            milliseconds
+        ).padStart(3, "0")}`;
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     setAllDotsColor(BRIGHT_COLORS[0]);
     updateContainerTitles();
+    updateContainerVisibility();
     startDataFetching();
 });
