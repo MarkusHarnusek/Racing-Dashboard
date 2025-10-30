@@ -291,6 +291,14 @@ function updateDashboardFromPacket(packet) {
             bestRight.textContent = formatTime(packet.bestTime);
         }
     }
+
+    // Fuel container
+    const fuelFullLeft = document.getElementById("fuel-full-left");
+    const fuelFullRight = document.getElementById("fuel-full-right");
+    if (fuelFullLeft && fuelFullRight) {
+        fuelFullLeft.textContent = `${packet.fuelInTank.toFixed(1)} / ${packet.fuelCapacity.toFixed(1)}`;
+        fuelFullRight.textContent = `${packet.fuelInTank.toFixed(1)} / ${packet.fuelCapacity.toFixed(1)}`;
+    }
 }
 
 function startRpmFlashing(activeDots) {

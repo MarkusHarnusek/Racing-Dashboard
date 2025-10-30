@@ -358,6 +358,25 @@ body {
     color: #cccccc;
 }
 
+#fuel-left,
+#fuel-right {
+    text-align: center;
+    margin-top: 5%;
+}
+
+#fuel-left p,
+#fuel-right p {
+    font-size: clamp(1rem, 2.5vw, 5rem);
+    font-weight: bolder;
+    color: #ffffff;
+}
+
+#fuel-left span,
+#fuel-right span {
+    font-size: clamp(0.8rem, 1.5vw, 3rem);
+    color: #cccccc;
+}
+
 @media (max-aspect-ratio: 5/3) {
     .dashboard {
         width: calc(100vw - 40px);
