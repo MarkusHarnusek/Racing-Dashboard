@@ -295,9 +295,41 @@ function updateDashboardFromPacket(packet) {
     // Fuel container
     const fuelFullLeft = document.getElementById("fuel-full-left");
     const fuelFullRight = document.getElementById("fuel-full-right");
+    const fuelBarLeft = document.getElementById("fuel-bar-left");
+    const fuelBarRight = document.getElementById("fuel-bar-right");
+    
     if (fuelFullLeft && fuelFullRight) {
         fuelFullLeft.textContent = `${packet.fuelInTank.toFixed(1)} / ${packet.fuelCapacity.toFixed(1)}`;
         fuelFullRight.textContent = `${packet.fuelInTank.toFixed(1)} / ${packet.fuelCapacity.toFixed(1)}`;
+    }
+    
+    if (fuelBarLeft && fuelBarRight && packet.fuelCapacity > 0) {
+        const fuelPercent = (packet.fuelInTank / packet.fuelCapacity) * 100;
+        fuelBarLeft.style.width = `${fuelPercent}%`;
+        fuelBarRight.style.width = `${fuelPercent}%`;
+    }
+
+    // Car container - Heading, Pitch, Roll
+    const headingLeft = document.getElementById("heading-left");
+    const headingRight = document.getElementById("heading-right");
+    const pitchLeft = document.getElementById("pitch-left");
+    const pitchRight = document.getElementById("pitch-right");
+    const rollLeft = document.getElementById("roll-left");
+    const rollRight = document.getElementById("roll-right");
+
+    if (headingLeft && headingRight) {
+        headingLeft.textContent = `${packet.heading.toFixed(0)}°`;
+        headingRight.textContent = `${packet.heading.toFixed(0)}°`;
+    }
+
+    if (pitchLeft && pitchRight) {
+        pitchLeft.textContent = `${packet.pitch.toFixed(1)}°`;
+        pitchRight.textContent = `${packet.pitch.toFixed(1)}°`;
+    }
+
+    if (rollLeft && rollRight) {
+        rollLeft.textContent = `${packet.roll.toFixed(1)}°`;
+        rollRight.textContent = `${packet.roll.toFixed(1)}°`;
     }
 }
 

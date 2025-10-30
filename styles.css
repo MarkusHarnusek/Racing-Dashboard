@@ -361,7 +361,7 @@ body {
 #fuel-left,
 #fuel-right {
     text-align: center;
-    margin-top: 5%;
+    margin-top: 10%;
 }
 
 #fuel-left p,
@@ -373,6 +373,43 @@ body {
 
 #fuel-left span,
 #fuel-right span {
+    font-size: clamp(0.8rem, 1.5vw, 3rem);
+    color: #cccccc;
+}
+
+.fuel-bar-container {
+    width: 80%;
+    height: clamp(5rem, 0.5vh, 10rem);
+    background-color: #333333;
+    border: 2px solid #595959;
+    margin: 10% auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fuel-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff0000 0%, #ffff00 50%, #00ff00 100%);
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+#car-left,
+#car-right {
+    text-align: center;
+    margin-top: 5%;
+}
+
+#car-left p,
+#car-right p {
+    font-size: clamp(1rem, 2.5vw, 5rem);
+    font-weight: bolder;
+    color: #ffffff;
+    margin-top: 5%;
+}
+
+#car-left span,
+#car-right span {
     font-size: clamp(0.8rem, 1.5vw, 3rem);
     color: #cccccc;
 }
