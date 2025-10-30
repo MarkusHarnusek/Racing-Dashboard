@@ -127,7 +127,7 @@ let pitFlashInterval = null;
 
 async function fetchPacketData() {
     try {
-        const response = await fetch("http://10.44.191.120:8080/packet", {
+        const response = await fetch("http://192.168.33.120:8080/packet", {
             method: "GET",
             mode: "cors",
             headers: {
@@ -299,12 +299,12 @@ function updateDashboardFromPacket(packet) {
     const fuelBarRight = document.getElementById("fuel-bar-right");
     
     if (fuelFullLeft && fuelFullRight) {
-        fuelFullLeft.textContent = `${packet.fuelInTank.toFixed(1)} / ${packet.fuelCapacity.toFixed(1)}`;
-        fuelFullRight.textContent = `${packet.fuelInTank.toFixed(1)} / ${packet.fuelCapacity.toFixed(1)}`;
+        fuelFullLeft.textContent = `${packet.fuel.toFixed(1)} / ${packet.maxFuel.toFixed(1)}`;
+        fuelFullRight.textContent = `${packet.fuel.toFixed(1)} / ${packet.maxFuel.toFixed(1)}`;
     }
-    
-    if (fuelBarLeft && fuelBarRight && packet.fuelCapacity > 0) {
-        const fuelPercent = (packet.fuelInTank / packet.fuelCapacity) * 100;
+
+    if (fuelBarLeft && fuelBarRight && packet.maxFuel > 0) {
+        const fuelPercent = (packet.fuel / packet.maxFuel) * 100;
         fuelBarLeft.style.width = `${fuelPercent}%`;
         fuelBarRight.style.width = `${fuelPercent}%`;
     }
@@ -317,19 +317,23 @@ function updateDashboardFromPacket(packet) {
     const rollLeft = document.getElementById("roll-left");
     const rollRight = document.getElementById("roll-right");
 
+    let heading = ( packet.heading + 3 ) * 60;
+    let pitch = packet.pitch * 60;
+    let roll = packet.roll * 60;
+
     if (headingLeft && headingRight) {
-        headingLeft.textContent = `${packet.heading.toFixed(0)}°`;
-        headingRight.textContent = `${packet.heading.toFixed(0)}°`;
+        headingLeft.textContent = `${heading.toFixed(0)}°`;
+        headingRight.textContent = `${heading.toFixed(0)}°`;
     }
 
     if (pitchLeft && pitchRight) {
-        pitchLeft.textContent = `${packet.pitch.toFixed(1)}°`;
-        pitchRight.textContent = `${packet.pitch.toFixed(1)}°`;
+        pitchLeft.textContent = `${pitch.toFixed(2)}°`;
+        pitchRight.textContent = `${pitch.toFixed(2)}°`;
     }
 
     if (rollLeft && rollRight) {
-        rollLeft.textContent = `${packet.roll.toFixed(1)}°`;
-        rollRight.textContent = `${packet.roll.toFixed(1)}°`;
+        rollLeft.textContent = `${roll.toFixed(2)}°`;
+        rollRight.textContent = `${roll.toFixed(2)}°`;
     }
 }
 
