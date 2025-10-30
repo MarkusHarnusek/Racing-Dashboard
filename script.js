@@ -321,6 +321,12 @@ function updateDashboardFromPacket(packet) {
     let pitch = packet.pitch * 60;
     let roll = packet.roll * 60;
 
+    if (heading < 0)  {
+        heading += 360;
+    } else if (heading >= 360) {
+        heading -= 360;
+    }
+
     if (headingLeft && headingRight) {
         headingLeft.textContent = `${heading.toFixed(0)}°`;
         headingRight.textContent = `${heading.toFixed(0)}°`;
