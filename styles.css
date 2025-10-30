@@ -389,8 +389,8 @@ body {
 
 .fuel-bar {
     height: 100%;
-    background: linear-gradient(90deg, #ff0000 0%, #ffff00 50%, #00ff00 100%);
-    transition: width 0.3s ease;
+    background: #ececec;
+    transition: width 0.3s ease, background-color 0.3s ease;
     width: 0%;
 }
 

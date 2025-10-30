@@ -255,7 +255,7 @@ function updateDashboardFromPacket(packet) {
 
     const lapElement = document.getElementById("lap-element");
     if (lapElement) {
-        lapElement.textContent = packet.completedLaps;
+        lapElement.textContent = packet.completedLaps + 1;
     }
 
     const posElement = document.getElementById("pos-element");
@@ -299,14 +299,35 @@ function updateDashboardFromPacket(packet) {
     const fuelBarRight = document.getElementById("fuel-bar-right");
     
     if (fuelFullLeft && fuelFullRight) {
-        fuelFullLeft.textContent = `${packet.fuel.toFixed(1)} / ${packet.maxFuel.toFixed(1)}`;
-        fuelFullRight.textContent = `${packet.fuel.toFixed(1)} / ${packet.maxFuel.toFixed(1)}`;
+        fuelFullLeft.textContent = `${packet.fuel.toFixed(1)}`;
+        fuelFullRight.textContent = `${packet.fuel.toFixed(1)}`;
     }
 
     if (fuelBarLeft && fuelBarRight && packet.maxFuel > 0) {
         const fuelPercent = (packet.fuel / packet.maxFuel) * 100;
         fuelBarLeft.style.width = `${fuelPercent}%`;
         fuelBarRight.style.width = `${fuelPercent}%`;
+        
+        let barColor;
+        if (fuelPercent > 20) {
+            barColor = '#ececec';
+        } else if (fuelPercent > 10) {
+            const ratio = (fuelPercent - 10) / 5;
+            const red = 255;
+            const green = 255;
+            const blue = Math.round(255 * ratio);
+            barColor = `rgb(${red}, ${green}, ${blue})`;
+        } else if (fuelPercent > 5) {
+            const ratio = (fuelPercent - 5) / 5;
+            const red = 255;
+            const green = Math.round(255 * ratio);
+            barColor = `rgb(${red}, ${green}, 0)`;
+        } else {
+            barColor = '#ff0000';
+        }
+        
+        fuelBarLeft.style.backgroundColor = barColor;
+        fuelBarRight.style.backgroundColor = barColor;
     }
 
     // Car container - Heading, Pitch, Roll
