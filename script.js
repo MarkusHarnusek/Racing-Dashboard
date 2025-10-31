@@ -382,10 +382,20 @@ function updateDashboardFromPacket(packet) {
     const gasRight = document.getElementById("gas-right");
     const brakeLeft = document.getElementById("brake-left");
     const brakeRight = document.getElementById("brake-right");
+    const steeringWheelLeft = document.getElementById("steering-wheel-left");
+    const steeringWheelRight = document.getElementById("steering-wheel-right");
 
     if (steerLeft && steerRight) {
         steerLeft.textContent = `${packet.steerAngle.toFixed(0)}°`;
         steerRight.textContent = `${packet.steerAngle.toFixed(0)}°`;
+    }
+
+    if (steeringWheelLeft) {
+        steeringWheelLeft.style.transform = `rotate(${packet.steerAngle.toFixed(2)}deg)`;
+    }
+
+    if (steeringWheelRight) {
+        steeringWheelRight.style.transform = `rotate(${packet.steerAngle.toFixed(2)}deg)`;
     }
 
     if (gasLeft && gasRight) {
@@ -604,7 +614,7 @@ function updateContainerVisibility() {
             break;
 
         case "Input":
-            document.querySelector("#input-left").style.display = "block";
+            document.querySelector("#input-left").style.display = "flex";
             break;
 
         case "Environment":
@@ -643,7 +653,7 @@ function updateContainerVisibility() {
             break;
 
         case "Input":
-            document.querySelector("#input-right").style.display = "block";
+            document.querySelector("#input-right").style.display = "flex";
             break;
 
         case "Environment":
