@@ -397,21 +397,42 @@ body {
 #car-left,
 #car-right {
     text-align: center;
-    margin-top: -2%;
+    margin-top: -20%;
 }
 
 #car-left p,
 #car-right p {
-    font-size: clamp(1rem, 2.5vw, 5rem);
+    font-size: clamp(1rem, 2vw, 5rem);
     font-weight: bolder;
     color: #ffffff;
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 #car-left span,
 #car-right span {
-    font-size: clamp(0.8rem, 1.5vw, 3rem);
+    font-size: clamp(0.8rem, 1.25vw, 3rem);
     color: #cccccc;
+}
+
+.compass-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5% auto;
+}
+
+.compass {
+    width: clamp(60px, 8vw, 120px);
+    height: clamp(60px, 8vw, 120px);
+    overflow: visible;
+}
+
+.compass-dial {
+    transition: transform 0.3s ease;
+}
+
+.compass-needle-fixed {
+    filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.8));
 }
 
 @media (max-aspect-ratio: 5/3) {

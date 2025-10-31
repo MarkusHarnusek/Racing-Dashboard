@@ -337,30 +337,42 @@ function updateDashboardFromPacket(packet) {
     const pitchRight = document.getElementById("pitch-right");
     const rollLeft = document.getElementById("roll-left");
     const rollRight = document.getElementById("roll-right");
+    const compassLeft = document.getElementById("compass-left");
+    const compassRight = document.getElementById("compass-right");
 
-    let heading = ( packet.heading + 3 ) * 60;
-    let pitch = packet.pitch * 60;
-    let roll = packet.roll * 60;
-
-    if (heading < 0)  {
-        heading += 360;
-    } else if (heading >= 360) {
-        heading -= 360;
+    if (packet.heading < 0)  {
+        packet.heading += 360;
+    } else if (packet.heading >= 360) {
+        packet.heading -= 360;
     }
 
     if (headingLeft && headingRight) {
-        headingLeft.textContent = `${heading.toFixed(0)}°`;
-        headingRight.textContent = `${heading.toFixed(0)}°`;
+        headingLeft.textContent = `${packet.heading.toFixed(0)}°`;
+        headingRight.textContent = `${packet.heading.toFixed(0)}°`;
+    }
+
+    if (compassLeft) {
+        const dialLeft = compassLeft.querySelector('.compass-dial');
+        if (dialLeft) {
+            dialLeft.setAttribute('transform', `rotate(${-packet.heading} 50 50)`);
+        }
+    }
+
+    if (compassRight) {
+        const dialRight = compassRight.querySelector('.compass-dial');
+        if (dialRight) {
+            dialRight.setAttribute('transform', `rotate(${-packet.heading} 50 50)`);
+        }
     }
 
     if (pitchLeft && pitchRight) {
-        pitchLeft.textContent = `${pitch.toFixed(2)}°`;
-        pitchRight.textContent = `${pitch.toFixed(2)}°`;
+        pitchLeft.textContent = `${packet.pitch.toFixed(2)}°`;
+        pitchRight.textContent = `${packet.pitch.toFixed(2)}°`;
     }
 
     if (rollLeft && rollRight) {
-        rollLeft.textContent = `${roll.toFixed(2)}°`;
-        rollRight.textContent = `${roll.toFixed(2)}°`;
+        rollLeft.textContent = `${packet.roll.toFixed(2)}°`;
+        rollRight.textContent = `${packet.roll.toFixed(2)}°`;
     }
 }
 
