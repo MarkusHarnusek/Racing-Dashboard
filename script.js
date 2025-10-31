@@ -125,6 +125,10 @@ let flashInterval = null;
 let pitFlashState = false;
 let pitFlashInterval = null;
 
+const INPUT_HISTORY_LENGTH = 100;
+let gasHistory = new Array(INPUT_HISTORY_LENGTH).fill(0);
+let brakeHistory = new Array(INPUT_HISTORY_LENGTH).fill(0);
+
 async function fetchPacketData() {
     try {
         const response = await fetch("http://192.168.33.120:8080/packet", {
@@ -407,6 +411,16 @@ function updateDashboardFromPacket(packet) {
         brakeLeft.textContent = `${(packet.brake * 100).toFixed(0)}%`;
         brakeRight.textContent = `${(packet.brake * 100).toFixed(0)}%`;
     }
+
+    // Update input history
+    gasHistory.shift();
+    gasHistory.push(packet.gas);
+    brakeHistory.shift();
+    brakeHistory.push(packet.brake);
+
+    // Draw input graphs
+    drawInputGraph('input-graph-left', gasHistory, brakeHistory);
+    drawInputGraph('input-graph-right', gasHistory, brakeHistory);
 }
 
 function startRpmFlashing(activeDots) {
@@ -703,6 +717,62 @@ function formatTime(ms) {
             milliseconds
         ).padStart(3, "0")}`;
     }
+}
+
+function drawInputGraph(canvasId, gasData, brakeData) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width = canvas.offsetWidth;
+    const height = canvas.height = canvas.offsetHeight;
+
+    ctx.fillStyle = '#1a1a1a';
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.strokeStyle = '#2a2a2a';
+    ctx.lineWidth = 1;
+    
+    for (let i = 0; i <= 4; i++) {
+        const y = (height / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+    }
+
+    ctx.strokeStyle = '#ff0000';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    
+    for (let i = 0; i < brakeData.length; i++) {
+        const x = (width / (brakeData.length - 1)) * i;
+        const y = height - (brakeData[i] * height);
+        
+        if (i === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    }
+    ctx.stroke();
+
+    // Draw gas line (green)
+    ctx.strokeStyle = '#00ff00';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    
+    for (let i = 0; i < gasData.length; i++) {
+        const x = (width / (gasData.length - 1)) * i;
+        const y = height - (gasData[i] * height);
+        
+        if (i === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    }
+    ctx.stroke();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

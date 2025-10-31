@@ -447,6 +447,7 @@ body {
 }
 
 .input-item-top-container {
+    margin-top: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -479,6 +480,15 @@ body {
     height: clamp(40px, 6vw, 80px);
     overflow: visible;
     transition: transform 0.1s ease;
+}
+
+.input-graph {
+    width: clamp(6rem, 16vw, 12rem);
+    height: clamp(40px, 6vw, 80px);
+    background-color: #1a1a1a;
+    border: 2px solid #595959;
+    border-radius: 5px;
+    margin-right: -25%;
 }
 
 .input-item-bottom p {
