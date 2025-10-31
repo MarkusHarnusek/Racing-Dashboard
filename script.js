@@ -374,6 +374,29 @@ function updateDashboardFromPacket(packet) {
         rollLeft.textContent = `${packet.roll.toFixed(2)}°`;
         rollRight.textContent = `${packet.roll.toFixed(2)}°`;
     }
+
+    // Input container - Steer, Gas, Brake
+    const steerLeft = document.getElementById("steer-left");
+    const steerRight = document.getElementById("steer-right");
+    const gasLeft = document.getElementById("gas-left");
+    const gasRight = document.getElementById("gas-right");
+    const brakeLeft = document.getElementById("brake-left");
+    const brakeRight = document.getElementById("brake-right");
+
+    if (steerLeft && steerRight) {
+        steerLeft.textContent = `${packet.steerAngle.toFixed(0)}°`;
+        steerRight.textContent = `${packet.steerAngle.toFixed(0)}°`;
+    }
+
+    if (gasLeft && gasRight) {
+        gasLeft.textContent = `${(packet.gas * 100).toFixed(0)}%`;
+        gasRight.textContent = `${(packet.gas * 100).toFixed(0)}%`;
+    }
+
+    if (brakeLeft && brakeRight) {
+        brakeLeft.textContent = `${(packet.brake * 100).toFixed(0)}%`;
+        brakeRight.textContent = `${(packet.brake * 100).toFixed(0)}%`;
+    }
 }
 
 function startRpmFlashing(activeDots) {

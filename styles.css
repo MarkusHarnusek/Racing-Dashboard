@@ -435,6 +435,26 @@ body {
     filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.8));
 }
 
+#input-left,
+#input-right {
+    text-align: center;
+    margin-top: -10%;
+}
+
+#input-right p,
+#input-left p {
+    font-size: clamp(1rem, 2vw, 5rem);
+    font-weight: bolder;
+    color: #ffffff;
+    margin-top: 2%;
+}
+
+#input-right span,
+#input-left span {
+    font-size: clamp(0.8rem, 1.5vw, 3rem);
+    color: #cccccc;
+}
+
 @media (max-aspect-ratio: 5/3) {
     .dashboard {
         width: calc(100vw - 40px);
