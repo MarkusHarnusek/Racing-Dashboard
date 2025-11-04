@@ -395,11 +395,11 @@ function updateDashboardFromPacket(packet) {
     }
 
     if (steeringWheelLeft) {
-        steeringWheelLeft.style.transform = `rotate(${packet.steerAngle.toFixed(2)}deg)`;
+        steeringWheelLeft.style.transform = `rotate(${packet.steerAngle.toFixed(0)}deg)`;
     }
 
     if (steeringWheelRight) {
-        steeringWheelRight.style.transform = `rotate(${packet.steerAngle.toFixed(2)}deg)`;
+        steeringWheelRight.style.transform = `rotate(${packet.steerAngle.toFixed(0)}deg)`;
     }
 
     if (gasLeft && gasRight) {
